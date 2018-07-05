@@ -20,11 +20,11 @@ import {
   getBackgroundColor,
   getBoxShadowColor,
   getContainerDisplay,
-  getDefaultOffset,
+  getNormalizedOffset,
   getPositionStyles,
   getInverseColor,
   getMaxDimensions,
-  getTriangleBoxShadow,
+  getTriangleBoxShadowColor,
   getTriangleStyles,
   getWrapperMaxDimensions
 } from './styles';
@@ -68,7 +68,7 @@ export const Tooltip = styled.div`
   &::after {
     border: 0.5em solid black;
     border-color: transparent transparent ${getBackgroundColor} ${getBackgroundColor};
-    box-shadow: -1px 1px 1px 0 ${getTriangleBoxShadow};
+    box-shadow: -1px 1px 1px 0 ${getTriangleBoxShadowColor};
     box-sizing: border-box;
     content: '';
     height: 0;
@@ -80,10 +80,22 @@ export const Tooltip = styled.div`
   }
 `;
 
+/**
+ * @constant {Object} INITIAL_STATE
+ */
 export const INITIAL_STATE = {
   isActive: false,
 };
 
+/**
+ * @function createOnHover
+ *
+ * @description
+ * create the onMouseEnter / onMouseLeave event handlers
+ *
+ * @param {boolean} isActive should the state be set to active
+ * @returns {function(ReactComponent): void} the handler
+ */
 export const createOnHover = (isActive) => (instance) => {
   if (isActive) {
     clearTimeout(instance.delayTimeout);
@@ -196,7 +208,7 @@ Retip.defaultProps = {
   isBlock: false,
   maxHeight: MAX_HEIGHT,
   maxWidth: MAX_WIDTH,
-  offset: getDefaultOffset(),
+  offset: getNormalizedOffset(),
   shadowColor: INVERSE_COLOR,
 };
 
